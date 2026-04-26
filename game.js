@@ -1,13 +1,14 @@
 // ── Leaderboard (localStorage para testes; trocar por JSONBin em producao) ──
-const USE_JSONBIN = true
-const BIN_ID  = '69ee9da3aaba8821973eada7'
-const API_KEY = '$2a$10$cF9DUjXC/qjb65CiZnNUCuWQOmZ9SxpireV3bCJKOvPDeRLRBn2d.'
+const USE_JSONBIN  = true
+const BIN_ID   = '69ee9da3aaba8821973eada7'
+const API_KEY  = '$2a$10$v1n2pxMTPwnMYbdiFo.Dyu3PF/nOOvEpXn19tzpgZQD0FGXn4UCkm'
+const KEY_HEADER = 'X-Access-Key'
 const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`
 
 async function fetchLeaderboard() {
   if (USE_JSONBIN) {
     try {
-      const res = await fetch(API_URL + '/latest', { headers: { 'X-Master-Key': API_KEY } })
+      const res = await fetch(API_URL + '/latest', { headers: { [KEY_HEADER]: API_KEY } })
       const data = await res.json()
       return Array.isArray(data.record) ? data.record.filter(e => e.username !== '_init') : []
     } catch { return [] }
@@ -21,7 +22,7 @@ async function saveLeaderboard(scores) {
     try {
       await fetch(API_URL, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+        headers: { 'Content-Type': 'application/json', [KEY_HEADER]: API_KEY },
         body: JSON.stringify(scores)
       })
     } catch {}
