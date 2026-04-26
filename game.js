@@ -174,8 +174,8 @@ function pangUpdate() {
   if (!pangRunning) return
   if (invincible > 0) invincible--
 
-  if (gameKeys['ArrowLeft'])  pangPlayer.x = Math.max(0, pangPlayer.x - PLAYER_SPEED)
-  if (gameKeys['ArrowRight']) pangPlayer.x = Math.min(GW - PLAYER_W, pangPlayer.x + PLAYER_SPEED)
+  if (gameKeys['ArrowLeft']  || gameKeys['KeyA']) pangPlayer.x = Math.max(0, pangPlayer.x - PLAYER_SPEED)
+  if (gameKeys['ArrowRight'] || gameKeys['KeyD']) pangPlayer.x = Math.min(GW - PLAYER_W, pangPlayer.x + PLAYER_SPEED)
 
   if (harpoon) {
     harpoon.y -= HARPOON_SPEED
@@ -262,7 +262,7 @@ function pangDraw() {
 
   // Hints - topo esquerdo
   ctx.fillStyle = 'rgba(130,140,150,0.7)'; ctx.font = 'bold 12px Segoe UI'; ctx.textAlign = 'left'
-  ctx.fillText('← →  mover      ␣ disparar', 10, 22)
+  ctx.fillText('← → / A D  mover      ␣ disparar', 10, 22)
 
   // Nivel - abaixo das hints
   ctx.fillStyle = 'rgba(100,110,120,0.55)'; ctx.font = '11px Segoe UI'
