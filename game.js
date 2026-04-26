@@ -337,5 +337,43 @@ document.getElementById('username-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('username-btn').click()
 })
 
+// ── Touch controls ────────────────────────────────────────────────
+const TAP_MAX_MS = 150
+let touchStart = null
+
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault()
+  const t = e.touches[0]
+  touchStart = { x: t.clientX, time: Date.now() }
+  const isLeft = t.clientX < canvas.getBoundingClientRect().left + canvas.getBoundingClientRect().width / 2
+  gameKeys['ArrowLeft']  = isLeft
+  gameKeys['ArrowRight'] = !isLeft
+}, { passive: false })
+
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault()
+  const t = e.touches[0]
+  const isLeft = t.clientX < canvas.getBoundingClientRect().left + canvas.getBoundingClientRect().width / 2
+  gameKeys['ArrowLeft']  = isLeft
+  gameKeys['ArrowRight'] = !isLeft
+}, { passive: false })
+
+canvas.addEventListener('touchend', e => {
+  e.preventDefault()
+  const duration = Date.now() - (touchStart?.time || 0)
+  gameKeys['ArrowLeft']  = false
+  gameKeys['ArrowRight'] = false
+
+  if (duration < TAP_MAX_MS) {
+    // Toque rapido = disparar
+    if (pangRunning && !harpoon) {
+      const cx = pangPlayer.x + PLAYER_W / 2
+      harpoon = { x: cx, y: pangPlayer.y + HB_INSET_TOP, bottom: pangPlayer.y + HB_INSET_TOP }
+    }
+    if (!pangRunning && username) startGame()
+  }
+  touchStart = null
+}, { passive: false })
+
 // ── Init ──────────────────────────────────────────────────────────
 refreshLeaderboard(null)
