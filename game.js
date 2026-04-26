@@ -375,5 +375,18 @@ canvas.addEventListener('touchend', e => {
   touchStart = null
 }, { passive: false })
 
+// ── Scaling para qualquer ecra ────────────────────────────────────
+function scaleGame() {
+  const page   = document.getElementById('page')
+  const scaleX = window.innerWidth  / 1024
+  const scaleY = window.innerHeight / 550
+  const scale  = Math.min(scaleX, scaleY)
+  const offX   = (window.innerWidth  - 1024 * scale) / 2
+  const offY   = (window.innerHeight - 550  * scale) / 2
+  page.style.transform = `translate(${offX}px, ${offY}px) scale(${scale})`
+}
+window.addEventListener('resize', scaleGame)
+scaleGame()
+
 // ── Init ──────────────────────────────────────────────────────────
 refreshLeaderboard(null)

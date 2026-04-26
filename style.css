@@ -9,24 +9,8 @@ body {
   overflow: hidden;
 }
 
-@media (max-width: 1024px) {
-  body { align-items: flex-start; overflow-y: auto; }
-  #page {
-    flex-direction: column;
-    width: 100vw;
-    height: auto;
-    outline: none;
-  }
-  #game-section { width: 100vw; }
-  #canvas { width: 100vw; height: auto; }
-  #banner { height: 60px; }
-  #lb-section {
-    width: 100vw;
-    border-left: none;
-    border-top: 1px solid #0096c7;
-    height: auto;
-  }
-  #lb-list { max-height: 220px; }
+#page {
+  transform-origin: top left;
 }
 
 #page {
