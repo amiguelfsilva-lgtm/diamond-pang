@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Diamond PANG</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="page">
+
+    <!-- JOGO -->
+    <div id="game-section">
+      <canvas id="canvas" width="750" height="430"></canvas>
+      <div id="banner"><img src="DIAMOND.gif" alt=""></div>
+
+      <!-- Overlay username (inicio) -->
+      <div id="username-overlay">
+        <div id="username-box">
+          <div class="ub-logo">💎</div>
+          <div class="ub-title">DIAMOND PANG</div>
+          <input id="username-input" maxlength="16" placeholder="O teu nome" autocomplete="off" spellcheck="false">
+          <button id="username-btn">JOGAR</button>
+          <div id="username-error"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div id="lb-section">
+      <div id="lb-title">🏆 Leaderboard</div>
+      <div id="lb-list">
+        <div class="lb-loading">A carregar...</div>
+      </div>
+      <div id="lb-footer">
+        <div id="lb-player"></div>
+      </div>
+    </div>
+
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
