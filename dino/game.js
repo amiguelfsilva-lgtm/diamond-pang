@@ -1,5 +1,5 @@
 const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d')
-const GW=750,GH=430,GROUND=390,CHAR_W=40,CHAR_H=40
+const GW=750,GH=430,GROUND=GH,CHAR_W=40,CHAR_H=40
 
 const charImg=new Image();charImg.src='../assets/char_pang.png'
 const charFrontImg=new Image();charFrontImg.src='../assets/char_front_pang.png'
@@ -42,7 +42,6 @@ function update() {
 
 function draw() {
   ctx.clearRect(0,0,GW,GH)
-  ctx.strokeStyle='#0096c7';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,GROUND);ctx.lineTo(GW,GROUND);ctx.stroke()
   for(const o of obstacles){ctx.drawImage(logoImg,o.x,o.y,o.w,o.h)}
   ctx.drawImage(charImg,40,charY,CHAR_W,CHAR_H)
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
