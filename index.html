@@ -2,41 +2,78 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Diamond PANG</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diamond Arcade</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+    body { background:#111316; color:#e3e5e7; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:40px 20px; }
+    .hub-header { text-align:center; margin-bottom:48px; }
+    .hub-logo { width:64px; margin-bottom:16px; }
+    .hub-title { color:#0096c7; font-size:32px; font-weight:700; letter-spacing:4px; }
+    .hub-sub { color:#69737e; font-size:13px; margin-top:6px; letter-spacing:1px; }
+    .games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:20px; width:100%; max-width:900px; }
+    .game-card { background:#12151a; border:1px solid #1e2228; padding:24px 20px; display:flex; flex-direction:column; align-items:center; gap:12px; cursor:pointer; transition:border-color .15s, transform .1s; text-decoration:none; color:inherit; }
+    .game-card:hover { border-color:#0096c7; transform:translateY(-2px); }
+    .game-icon { font-size:42px; }
+    .game-name { color:#0096c7; font-size:14px; font-weight:700; letter-spacing:2px; }
+    .game-desc { color:#69737e; font-size:11px; text-align:center; line-height:1.5; }
+    .game-btn { background:#0096c7; color:#fff; border:none; padding:6px 20px; font-size:11px; font-weight:700; letter-spacing:1px; cursor:pointer; width:100%; }
+    .game-btn:hover { background:#00b4e8; }
+    .hub-footer { margin-top:48px; color:#2a2d30; font-size:11px; }
+  </style>
 </head>
 <body>
-  <div id="page">
-
-    <!-- JOGO -->
-    <div id="game-section">
-      <canvas id="canvas" width="750" height="430"></canvas>
-      <div id="banner"><img src="DIAMOND.gif" alt=""></div>
-
-      <!-- Overlay username (inicio) -->
-      <div id="username-overlay">
-        <div id="username-box">
-          <div class="ub-logo">💎</div>
-          <div class="ub-title">DIAMOND PANG</div>
-          <input id="username-input" maxlength="16" placeholder="O teu nome" autocomplete="off" spellcheck="false">
-          <button id="username-btn">JOGAR</button>
-          <div id="username-error"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- LEADERBOARD -->
-    <div id="lb-section">
-      <div id="lb-title">🏆 Leaderboard</div>
-      <div id="lb-list">
-        <div class="lb-loading">A carregar...</div>
-      </div>
-      <div id="lb-footer">
-        <div id="lb-player"></div>
-      </div>
-    </div>
-
+  <div class="hub-header">
+    <img class="hub-logo" src="assets/mainlogo.png" alt="">
+    <div class="hub-title">DIAMOND ARCADE</div>
+    <div class="hub-sub">Escolhe o teu jogo</div>
   </div>
-  <script src="game.js"></script>
+
+  <div class="games-grid">
+    <a class="game-card" href="pang/">
+      <div class="game-icon">🔵</div>
+      <div class="game-name">PANG</div>
+      <div class="game-desc">Rebenta os logos Diamond com o arpão antes que te atinjam</div>
+      <button class="game-btn">JOGAR</button>
+    </a>
+    <a class="game-card" href="dino/">
+      <div class="game-icon">🦕</div>
+      <div class="game-name">DINO RUN</div>
+      <div class="game-desc">Salta por cima dos logos Diamond e sobrevive o máximo possível</div>
+      <button class="game-btn">JOGAR</button>
+    </a>
+    <a class="game-card" href="breakout/">
+      <div class="game-icon">🧱</div>
+      <div class="game-name">BREAKOUT</div>
+      <div class="game-desc">Destrói todos os blocos Diamond com a bola sem a deixar cair</div>
+      <button class="game-btn">JOGAR</button>
+    </a>
+    <a class="game-card" href="invaders/">
+      <div class="game-icon">👾</div>
+      <div class="game-name">INVADERS</div>
+      <div class="game-desc">Abate os logos Diamond antes que cheguem ao chão</div>
+      <button class="game-btn">JOGAR</button>
+    </a>
+    <a class="game-card" href="flappy/">
+      <div class="game-icon">🐦</div>
+      <div class="game-name">FLAPPY</div>
+      <div class="game-desc">Voa entre os obstáculos sem bater — cada toque é um flap</div>
+      <button class="game-btn">JOGAR</button>
+    </a>
+    <a class="game-card" href="snake/">
+      <div class="game-icon">🐍</div>
+      <div class="game-name">SNAKE</div>
+      <div class="game-desc">Come os logos Diamond e cresce — não batas nas paredes nem em ti</div>
+      <button class="game-btn">JOGAR</button>
+    </a>
+    <a class="game-card" href="whack/">
+      <div class="game-icon">🔨</div>
+      <div class="game-name">WHACK</div>
+      <div class="game-desc">Bate nos logos Diamond o mais rápido possível antes que desapareçam</div>
+      <button class="game-btn">JOGAR</button>
+    </a>
+  </div>
+
+  <div class="hub-footer">Diamond Arcade · amiguelfsilva-lgtm.github.io</div>
 </body>
 </html>
