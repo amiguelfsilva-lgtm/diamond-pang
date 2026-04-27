@@ -1,9 +1,12 @@
 const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d')
 const GW=750,GH=430
 
-const charImg=new Image();charImg.src='../assets/char_pang.png'
+const charIdleImg=new Image();charIdleImg.src='../assets/char_front_pang.png'
+const charRunImg=new Image();charRunImg.src='../assets/charlateral.png'
+const charJumpImg=new Image();charJumpImg.src='../assets/charjump.png'
 const charFrontImg=new Image();charFrontImg.src='../assets/char_front_pang.png'
 const logoImg=new Image();logoImg.src='../assets/mainlogo.png'
+const brickImg=new Image();brickImg.src='../assets/bricks.png'
 
 // ── Constants ─────────────────────────────────────────────────────
 const GRAV=0.45, JUMP=-11, MOVE_SPD=4, CHAR_W=32, CHAR_H=36
@@ -135,13 +138,16 @@ function draw(){
   // Platforms
   for(const p of platforms){
     if(p.x+p.w<camX-10||p.x>camX+GW+10)continue
-    ctx.fillStyle=p.ground?'#0096c7':'#1e5c7a'
-    ctx.fillRect(p.x,p.y,p.w,p.h)
-    // Logo decoration on platform tops
-    if(!p.ground&&p.w>50){
-      ctx.save();ctx.globalAlpha=.3
-      ctx.drawImage(logoImg,p.x,p.y-10,p.w,10)
-      ctx.restore()
+    // Tile bricks across platform width
+    const bsz=PLAT_H
+    for(let bx=p.x;bx<p.x+p.w;bx+=bsz){
+      const bw=Math.min(bsz,p.x+p.w-bx)
+      if(brickImg.complete&&brickImg.naturalWidth>0){
+        ctx.drawImage(brickImg,bx,p.y,bw,PLAT_H)
+      } else {
+        ctx.fillStyle=p.ground?'#0096c7':'#1e5c7a'
+        ctx.fillRect(bx,p.y,bw,PLAT_H)
+      }
     }
   }
 
@@ -164,11 +170,15 @@ function draw(){
     ctx.restore()
   }
 
-  // Char
+  // Char — sprite consoante estado
+  const sprite = !char.onGround ? charJumpImg : (char.vx!==0 ? charRunImg : charIdleImg)
   ctx.save()
   if(invincible>0&&Math.floor(invincible/6)%2===0)ctx.globalAlpha=.3
-  if(char.vx<0){ctx.translate(char.x+CHAR_W,char.y);ctx.scale(-1,1);ctx.drawImage(charImg,0,0,CHAR_W,CHAR_H)}
-  else ctx.drawImage(charImg,char.x,char.y,CHAR_W,CHAR_H)
+  if(char.vx<0){
+    ctx.translate(char.x+CHAR_W,char.y);ctx.scale(-1,1);ctx.drawImage(sprite,0,0,CHAR_W,CHAR_H)
+  } else {
+    ctx.drawImage(sprite,char.x,char.y,CHAR_W,CHAR_H)
+  }
   ctx.restore()
 
   ctx.restore() // end camera transform
