@@ -73,11 +73,9 @@ async function onGameEnd(username, score) {
 function scaleGame() {
   const page = document.getElementById('page')
   if (!page) return
-  const s    = Math.min(window.innerWidth / 1024, window.innerHeight / 550)
-  const ox   = (window.innerWidth  - 1024 * s) / 2
-  const oy   = (window.innerHeight - 550  * s) / 2
-  page.style.transform       = `translate(${ox}px,${oy}px) scale(${s})`
-  page.style.transformOrigin = 'top left'
+  const s = Math.min(1, window.innerWidth / 1024, window.innerHeight / 550)
+  page.style.transform       = `scale(${s})`
+  page.style.transformOrigin = 'center center'
 }
 window.addEventListener('resize', scaleGame)
 document.addEventListener('DOMContentLoaded', scaleGame)
