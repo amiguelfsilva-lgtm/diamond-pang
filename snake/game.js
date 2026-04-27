@@ -31,8 +31,10 @@ function draw(){
   ctx.clearRect(0,0,GW,GH)
   ctx.drawImage(logoImg,food.x*CELL,food.y*CELL,CELL,CELL)
   snake.forEach((s,i)=>{
-    if(i===0){ctx.drawImage(charImg,s.x*CELL,s.y*CELL,CELL,CELL)}
-    else{ctx.fillStyle=`rgba(0,150,199,${1-.4*(i/snake.length)})`;ctx.fillRect(s.x*CELL+2,s.y*CELL+2,CELL-4,CELL-4)}
+    ctx.save()
+    ctx.globalAlpha = i===0 ? 1 : Math.max(0.25, 1 - (i/snake.length)*0.7)
+    ctx.drawImage(i===0 ? charImg : logoImg, s.x*CELL, s.y*CELL, CELL, CELL)
+    ctx.restore()
   })
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
   ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('← ↑ → ↓ / WASD  mover',8,GH-8)
