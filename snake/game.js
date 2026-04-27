@@ -1,24 +1,26 @@
 const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d')
-const GW=750,GH=430,CELL=25,COLS=Math.floor(GW/CELL),ROWS=Math.floor(GH/CELL),SPD=120
+const GW=750,GH=430,CELL=25,COLS=Math.floor(GW/CELL),ROWS=Math.floor(GH/CELL),SPD=110
 
 const logoImg=new Image();logoImg.src='../assets/mainlogo.png'
 const charImg=new Image();charImg.src='../assets/char_pang.png'
 const charFrontImg=new Image();charFrontImg.src='../assets/char_front_pang.png'
 
 let user='',score=0,running=false,over=false
-let snake=[],dir={x:1,y:0},nextDir={x:1,y:0},food={},lastMove=0
+let snake=[],prevSnake=[],dir={x:1,y:0},nextDir={x:1,y:0},food={}
+let lastMove=0,moveProgress=0
 
 function rnd(max){return Math.floor(Math.random()*max)}
 function placeFood(){
   do{food={x:rnd(COLS),y:rnd(ROWS)}}while(snake.some(s=>s.x===food.x&&s.y===food.y))
 }
 
-function update(ts){
-  if(!running)return
-  if(ts-lastMove<SPD)return
-  lastMove=ts
-  dir={...nextDir}
-  const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y}
+function moveSnake(ts) {
+  if(ts-lastMove < SPD) return
+  prevSnake = snake.map(s=>({...s}))
+  lastMove = ts
+  moveProgress = 0
+  dir = {...nextDir}
+  const head={x:snake[0].x+dir.x, y:snake[0].y+dir.y}
   if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS||snake.some(s=>s.x===head.x&&s.y===head.y)){
     running=false;over=true;onGameEnd(user,score).then(s=>s&&renderLeaderboard(s,user));return
   }
@@ -27,15 +29,27 @@ function update(ts){
   else snake.pop()
 }
 
+function update(ts){
+  if(!running)return
+  moveProgress = Math.min(1,(ts-lastMove)/SPD)
+  moveSnake(ts)
+}
+
 function draw(){
   ctx.clearRect(0,0,GW,GH)
   ctx.drawImage(logoImg,food.x*CELL,food.y*CELL,CELL,CELL)
+
+  const t = moveProgress
   snake.forEach((s,i)=>{
+    const prev = prevSnake[i] || s
+    const px = (prev.x + (s.x-prev.x)*t)*CELL
+    const py = (prev.y + (s.y-prev.y)*t)*CELL
     ctx.save()
-    ctx.globalAlpha = i===0 ? 1 : Math.max(0.25, 1 - (i/snake.length)*0.7)
-    ctx.drawImage(i===0 ? charImg : logoImg, s.x*CELL, s.y*CELL, CELL, CELL)
+    ctx.globalAlpha = i===0 ? 1 : Math.max(0.25, 1-(i/snake.length)*0.7)
+    ctx.drawImage(i===0 ? charImg : logoImg, px, py, CELL, CELL)
     ctx.restore()
   })
+
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
   ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('← ↑ → ↓ / WASD  mover',8,GH-8)
   if(over){
@@ -49,12 +63,12 @@ function draw(){
   }
 }
 
-function loop(ts){if(running||over){update(ts);draw()};requestAnimationFrame(loop)}
+function loop(ts){update(ts);draw();requestAnimationFrame(loop)}
 
 function startGame(u){
   user=u;score=0;running=true;over=false
   snake=[{x:Math.floor(COLS/2),y:Math.floor(ROWS/2)}]
-  dir={x:1,y:0};nextDir={x:1,y:0};lastMove=0
+  prevSnake=[...snake];dir={x:1,y:0};nextDir={x:1,y:0};lastMove=performance.now();moveProgress=0
   placeFood();refreshLeaderboard(u)
 }
 
