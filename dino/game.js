@@ -5,9 +5,9 @@ const charImg=new Image();charImg.src='../assets/char_pang.png'
 const charFrontImg=new Image();charFrontImg.src='../assets/char_front_pang.png'
 const logoImg=new Image();logoImg.src='../assets/mainlogo.png'
 
-let user='',score=0,hi=0,running=false,over=false,iv=null
+let user='',score=0,running=false,over=false,iv=null
 let charY=GROUND-CHAR_H,velY=0,jumping=false,doubleJump=false
-let obstacles=[],speed=4,dist=0,nextObs=80,keys={}
+let obstacles=[],speed=4,dist=0,nextObs=80
 
 const GRAV=0.5, JUMP=-11, DJ=-9
 
@@ -27,10 +27,8 @@ function update() {
   dist++; score=Math.floor(dist/5)
   speed=4+dist/800
   if(--nextObs<=0)spawnObs()
-
   velY+=GRAV; charY+=velY
   if(charY>=GROUND-CHAR_H){charY=GROUND-CHAR_H;velY=0;jumping=false;doubleJump=false}
-
   for(let i=obstacles.length-1;i>=0;i--){
     const o=obstacles[i]; o.x-=speed
     if(o.x+o.w<0){obstacles.splice(i,1);continue}
@@ -45,7 +43,7 @@ function draw() {
   for(const o of obstacles){ctx.drawImage(logoImg,o.x,o.y,o.w,o.h)}
   ctx.drawImage(charImg,40,charY,CHAR_W,CHAR_H)
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
-  ctx.fillStyle='rgba(130,140,150,.7)';ctx.font='bold 12px Segoe UI';ctx.textAlign='left';ctx.fillText('␣ / W / ↑  saltar (2x duplo salto)',10,20)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('␣ / W / ↑  saltar  (2x = duplo salto)',8,GH-8)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
     const sz=130,ix=GW/2-sz/2,iy=GH/2-110

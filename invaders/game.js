@@ -8,7 +8,7 @@ const charFrontImg=new Image();charFrontImg.src='../assets/char_front_pang.png'
 
 let user='',score=0,lives=3,running=false,over=false,won=false,iv=null
 let ship={},enemies=[],bullets=[],enemyBullets=[],keys={}
-let enemyDir=1,enemyStep=0,enemyMoveTimer=0,enemyMoveInterval=50,shootTimer=0
+let enemyDir=1,enemyMoveTimer=0,enemyMoveInterval=50,shootTimer=0
 
 function makeEnemies(){
   enemies=[]
@@ -22,8 +22,6 @@ function update(){
   if(!running)return
   if(keys.ArrowLeft||keys.KeyA) ship.x=Math.max(0,ship.x-5)
   if(keys.ArrowRight||keys.KeyD) ship.x=Math.min(GW-SHIP_W,ship.x+5)
-
-  // Player bullets
   for(let i=bullets.length-1;i>=0;i--){
     bullets[i].y-=BULLET_SPD
     if(bullets[i].y<0){bullets.splice(i,1);continue}
@@ -34,8 +32,6 @@ function update(){
       }
     }
   }
-
-  // Enemy movement
   if(++enemyMoveTimer>=enemyMoveInterval){
     enemyMoveTimer=0
     const alive=enemies.filter(e=>e.alive)
@@ -46,15 +42,11 @@ function update(){
     enemyMoveInterval=Math.max(10,enemyMoveInterval-0.5)
     if(alive.some(e=>e.y+ENEMY_H>=ship.y)){running=false;over=true;onGameEnd(user,score).then(s=>s&&renderLeaderboard(s,user))}
   }
-
-  // Enemy shoot
   if(++shootTimer>=60){
     shootTimer=0
     const alive=enemies.filter(e=>e.alive)
     if(alive.length){const e=alive[Math.floor(Math.random()*alive.length)];enemyBullets.push({x:e.x+ENEMY_W/2,y:e.y+ENEMY_H})}
   }
-
-  // Enemy bullets
   for(let i=enemyBullets.length-1;i>=0;i--){
     enemyBullets[i].y+=ENEMY_BULLET_SPD
     if(enemyBullets[i].y>GH){enemyBullets.splice(i,1);continue}
@@ -74,7 +66,7 @@ function draw(){
   ctx.fillStyle='#e05050';for(const b of enemyBullets){ctx.fillRect(b.x-2,b.y,4,10)}
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
   for(let i=0;i<3;i++){ctx.fillStyle=i<lives?'#e05050':'#2a2d30';ctx.font='bold 22px Segoe UI';ctx.textAlign='right';ctx.fillText('♥',GW-8-(2-i)*26,30)}
-  ctx.fillStyle='rgba(130,140,150,.7)';ctx.font='bold 12px Segoe UI';ctx.textAlign='left';ctx.fillText('← → / A D  mover    ␣ disparar',10,20)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('← → / A D  mover    ␣ disparar',8,GH-8)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
     const sz=130,ix=GW/2-sz/2,iy=GH/2-110
@@ -89,7 +81,7 @@ function draw(){
 function startGame(u){
   user=u;score=0;lives=3;running=true;over=false;won=false
   ship={x:GW/2-SHIP_W/2,y:GH-SHIP_H-10}
-  bullets=[];enemyBullets=[];enemyDir=1;enemyStep=0;enemyMoveTimer=0;enemyMoveInterval=50;shootTimer=0
+  bullets=[];enemyBullets=[];enemyDir=1;enemyMoveTimer=0;enemyMoveInterval=50;shootTimer=0
   makeEnemies()
   if(iv)clearInterval(iv);iv=setInterval(()=>{update();draw()},16)
   refreshLeaderboard(u)
@@ -106,5 +98,4 @@ let touchSide=null
 canvas.addEventListener('touchstart',e=>{e.preventDefault();const r=canvas.getBoundingClientRect();touchSide=e.touches[0].clientX<r.left+r.width/2?'L':'R';if(running&&bullets.length<3)bullets.push({x:ship.x+SHIP_W/2,y:ship.y})},{passive:false})
 canvas.addEventListener('touchend',e=>{e.preventDefault();touchSide=null;if(!running&&user)startGame(user)},{passive:false})
 setInterval(()=>{if(touchSide==='L'&&running)ship.x=Math.max(0,ship.x-5);if(touchSide==='R'&&running)ship.x=Math.min(GW-SHIP_W,ship.x+5)},16)
-
 initUsernameOverlay(startGame)

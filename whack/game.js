@@ -34,16 +34,16 @@ function draw(){
     else ctx.drawImage(logoImg,m.x-sz/2,m.y-sz/2,sz,sz)
   }
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
-  ctx.fillStyle='rgba(130,140,150,.7)';ctx.font='bold 12px Segoe UI';ctx.textAlign='left';ctx.fillText('Click / Tap nos logos',10,20)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('Click / Tap nos logos',8,GH-8)
   ctx.fillStyle=timeLeft<=10?'#e05050':'rgba(0,150,199,.8)';ctx.font='bold 20px Segoe UI';ctx.textAlign='right';ctx.fillText(timeLeft+'s',GW-10,28)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
-    const s2=130,ix=GW/2-s2/2,iy=GH/2-110
-    ctx.drawImage(charFrontImg,ix,iy,s2,s2)
+    const sz2=130,ix=GW/2-sz2/2,iy=GH/2-110
+    ctx.drawImage(charFrontImg,ix,iy,sz2,sz2)
     ctx.textAlign='center'
-    ctx.fillStyle='#0096c7';ctx.font='bold 40px Segoe UI';ctx.fillText('TEMPO ESGOTADO',GW/2,iy+s2+40)
-    ctx.fillStyle='#e3e5e7';ctx.font='bold 18px Segoe UI';ctx.fillText('Score: '+score,GW/2,iy+s2+70)
-    ctx.fillStyle='#0096c7';ctx.font='bold 14px Segoe UI';ctx.fillText('↵  Pressionar Enter para Recomecar',GW/2,iy+s2+100)
+    ctx.fillStyle='#0096c7';ctx.font='bold 40px Segoe UI';ctx.fillText('TEMPO ESGOTADO',GW/2,iy+sz2+40)
+    ctx.fillStyle='#e3e5e7';ctx.font='bold 18px Segoe UI';ctx.fillText('Score: '+score,GW/2,iy+sz2+70)
+    ctx.fillStyle='#0096c7';ctx.font='bold 14px Segoe UI';ctx.fillText('↵  Pressionar Enter para Recomecar',GW/2,iy+sz2+100)
   }
 }
 
@@ -59,14 +59,13 @@ function startGame(u){
   user=u;score=0;timeLeft=DURATION;running=true;over=false;moles=[];spawnTimer=20
   if(iv)clearInterval(iv)
   iv=setInterval(()=>{update();draw()},16)
-  const cd=setInterval(()=>{if(!running){clearInterval(cd);return}; if(--timeLeft<=0){running=false;over=true;clearInterval(cd);onGameEnd(user,score).then(s=>s&&renderLeaderboard(s,user))}},1000)
+  const cd=setInterval(()=>{if(!running){clearInterval(cd);return};if(--timeLeft<=0){running=false;over=true;clearInterval(cd);onGameEnd(user,score).then(s=>s&&renderLeaderboard(s,user))}},1000)
   refreshLeaderboard(u)
 }
 
 function getCanvasPos(e,r){const t=e.touches?e.touches[0]:e;return{x:(t.clientX-r.left)/r.width*GW,y:(t.clientY-r.top)/r.height*GH}}
 
-canvas.addEventListener('click',e=>{if(!running)return;const r=canvas.getBoundingClientRect();const p=getCanvasPos(e,r);hitAt(p.x,p.y)})
+canvas.addEventListener('click',e=>{if(!running)return;const r=canvas.getBoundingClientRect();hitAt(...Object.values(getCanvasPos(e,r)))})
 canvas.addEventListener('touchstart',e=>{e.preventDefault();if(!running){if(user)startGame(user);return};const r=canvas.getBoundingClientRect();const p=getCanvasPos(e,r);hitAt(p.x,p.y)},{passive:false})
 document.addEventListener('keydown',e=>{if(e.code==='Enter'&&!running&&user)startGame(user)})
-
 initUsernameOverlay(startGame)

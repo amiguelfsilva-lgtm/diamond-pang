@@ -5,7 +5,7 @@ const logoImg=new Image();logoImg.src='../assets/mainlogo.png'
 const charImg=new Image();charImg.src='../assets/char_pang.png'
 const charFrontImg=new Image();charFrontImg.src='../assets/char_front_pang.png'
 
-let user='',score=0,running=false,over=false,iv=null
+let user='',score=0,running=false,over=false
 let snake=[],dir={x:1,y:0},nextDir={x:1,y:0},food={},lastMove=0
 
 function rnd(max){return Math.floor(Math.random()*max)}
@@ -35,7 +35,7 @@ function draw(){
     else{ctx.fillStyle=`rgba(0,150,199,${1-.4*(i/snake.length)})`;ctx.fillRect(s.x*CELL+2,s.y*CELL+2,CELL-4,CELL-4)}
   })
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
-  ctx.fillStyle='rgba(130,140,150,.7)';ctx.font='bold 12px Segoe UI';ctx.textAlign='left';ctx.fillText('← ↑ → ↓ / WASD  mover',10,20)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('← ↑ → ↓ / WASD  mover',8,GH-8)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
     const sz=130,ix=GW/2-sz/2,iy=GH/2-110
@@ -47,7 +47,7 @@ function draw(){
   }
 }
 
-function loop(ts){if(running||over){update(ts);draw()}; requestAnimationFrame(loop)}
+function loop(ts){if(running||over){update(ts);draw()};requestAnimationFrame(loop)}
 
 function startGame(u){
   user=u;score=0;running=true;over=false
@@ -63,7 +63,6 @@ document.addEventListener('keydown',e=>{
   if(e.code==='Enter'&&!running&&user)startGame(user)
 })
 
-// Swipe touch
 let tx0=null,ty0=null
 canvas.addEventListener('touchstart',e=>{e.preventDefault();tx0=e.touches[0].clientX;ty0=e.touches[0].clientY},{passive:false})
 canvas.addEventListener('touchend',e=>{

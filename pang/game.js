@@ -67,8 +67,8 @@ function draw() {
   ctx.save();if(inv>0&&Math.floor(inv/6)%2===0)ctx.globalAlpha=.3;ctx.drawImage(charImg,player.x,player.y,PLAYER_W,PLAYER_H);ctx.restore()
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 30px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,36)
   for(let i=0;i<3;i++){ctx.fillStyle=i<lives?'#e05050':'#2a2d30';ctx.font='bold 22px Segoe UI';ctx.textAlign='right';ctx.fillText('♥',GW-8-(2-i)*26,30)}
-  ctx.fillStyle='rgba(130,140,150,.7)';ctx.font='bold 12px Segoe UI';ctx.textAlign='left';ctx.fillText('← → / A D  mover    ␣ disparar',10,22)
-  ctx.fillStyle='rgba(100,110,120,.55)';ctx.font='11px Segoe UI';ctx.fillText('NIVEL '+level+' / 9',10,38)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('NIVEL '+level+' / 9',8,GH-20)
+  ctx.fillText('← → / A D  mover    ␣ disparar',8,GH-8)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
     const sz=140,ix=GW/2-sz/2,iy=GH/2-120
@@ -92,5 +92,4 @@ document.addEventListener('keydown',e=>{
   if(e.code==='Enter'&&!running&&user)startGame(user)
 })
 document.addEventListener('keyup',e=>{keys[e.code]=false})
-
 initUsernameOverlay(startGame)

@@ -15,13 +15,11 @@ function update(){
   bird.vy+=GRAV;bird.y+=bird.vy
   if(bird.y-BIRD_R<=0){bird.y=BIRD_R;bird.vy=0}
   if(bird.y+BIRD_R>=GH){running=false;over=true;onGameEnd(user,score).then(s=>s&&renderLeaderboard(s,user));return}
-
   if(--nextPipe<=0){
     const topH=60+Math.random()*(GH-GAP-80)
     pipes.push({x:GW,topH,passed:false})
     nextPipe=100
   }
-
   for(let i=pipes.length-1;i>=0;i--){
     const p=pipes[i]; p.x-=PIPE_SPD
     if(p.x+PIPE_W<0){pipes.splice(i,1);continue}
@@ -39,7 +37,6 @@ function draw(){
     ctx.fillStyle='#1e4d2b'
     ctx.fillRect(p.x,0,PIPE_W,p.topH)
     ctx.fillRect(p.x,p.topH+GAP,PIPE_W,GH-p.topH-GAP)
-    // Logo decorations on pipes
     ctx.save();ctx.globalAlpha=.7
     ctx.drawImage(logoImg,p.x,p.topH-30,PIPE_W,30)
     ctx.drawImage(logoImg,p.x,p.topH+GAP,PIPE_W,30)
@@ -48,7 +45,7 @@ function draw(){
   ctx.save();ctx.translate(bird.x,bird.y);ctx.rotate(Math.min(Math.max(bird.vy*.05,-.4),.6))
   ctx.drawImage(charImg,-BIRD_R,-BIRD_R,BIRD_R*2,BIRD_R*2);ctx.restore()
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 30px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,36)
-  ctx.fillStyle='rgba(130,140,150,.7)';ctx.font='bold 12px Segoe UI';ctx.textAlign='left';ctx.fillText('␣ / click / tap  flap',10,20)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('␣ / click / tap  flap',8,GH-8)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
     const sz=130,ix=GW/2-sz/2,iy=GH/2-110
@@ -73,5 +70,4 @@ document.addEventListener('keydown',e=>{
 })
 canvas.addEventListener('click',()=>{if(running)flap();else if(user)startGame(user)})
 canvas.addEventListener('touchstart',e=>{e.preventDefault();if(running)flap();else if(user)startGame(user)},{passive:false})
-
 initUsernameOverlay(startGame)
