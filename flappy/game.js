@@ -45,7 +45,7 @@ function draw(){
   ctx.save();ctx.translate(bird.x,bird.y);ctx.rotate(Math.min(Math.max(bird.vy*.05,-.4),.6))
   ctx.drawImage(charImg,-BIRD_R,-BIRD_R,BIRD_R*2,BIRD_R*2);ctx.restore()
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 30px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,36)
-  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('␣ / click / tap  flap',8,GH-8)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('␣ / click / tap  flap',8,GH-14)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
     const sz=130,ix=GW/2-sz/2,iy=GH/2-110

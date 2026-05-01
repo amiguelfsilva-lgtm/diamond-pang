@@ -40,7 +40,7 @@ function update(){
     if(hitWall){enemies.forEach(e=>{e.y+=20});enemyDir*=-1}
     else enemies.forEach(e=>{e.x+=enemyDir*20})
     enemyMoveInterval=Math.max(10,enemyMoveInterval-0.5)
-    if(alive.some(e=>e.y+ENEMY_H>=ship.y)){running=false;over=true;onGameEnd(user,score).then(s=>s&&renderLeaderboard(s,user))}
+    if(alive.some(e=>e.y+ENEMY_H>=ship.y)){running=false;over=true;onGameEnd(user,score).then(s=>s&&renderLeaderboard(s,user));return}
   }
   if(++shootTimer>=60){
     shootTimer=0
@@ -66,7 +66,7 @@ function draw(){
   ctx.fillStyle='#e05050';for(const b of enemyBullets){ctx.fillRect(b.x-2,b.y,4,10)}
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
   for(let i=0;i<3;i++){ctx.fillStyle=i<lives?'#e05050':'#2a2d30';ctx.font='bold 22px Segoe UI';ctx.textAlign='right';ctx.fillText('♥',GW-8-(2-i)*26,30)}
-  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('← → / A D  mover    ␣ disparar',8,GH-8)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('← → / A D  mover    ␣ disparar',8,GH-14)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
     const sz=130,ix=GW/2-sz/2,iy=GH/2-110

@@ -43,7 +43,7 @@ function draw() {
   for(const o of obstacles){ctx.drawImage(logoImg,o.x,o.y,o.w,o.h)}
   ctx.drawImage(charImg,40,charY,CHAR_W,CHAR_H)
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
-  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('␣ / W / ↑  saltar  (2x = duplo salto)',8,GH-8)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('␣ / W / ↑  saltar  (2x = duplo salto)',8,GH-14)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
     const sz=130,ix=GW/2-sz/2,iy=GH/2-110

@@ -387,10 +387,10 @@ function draw(){
   // Help text / boss hint
   if(arenaLocked&&!leverHit){
     ctx.fillStyle='rgba(220,60,60,.85)';ctx.font='bold 11px Segoe UI';ctx.textAlign='center'
-    ctx.fillText('BOSS — chega à alavanca para o derrotar!',GW/2,GH-8)
+    ctx.fillText('BOSS — chega à alavanca para o derrotar!',GW/2,GH-14)
   } else if(!arenaLocked){
     ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left'
-    ctx.fillText('← → / A D  mover    ↑ / W / ␣  saltar',8,GH-8)
+    ctx.fillText('← → / A D  mover    ↑ / W / ␣  saltar',8,GH-14)
   }
 
   // Game Over overlay

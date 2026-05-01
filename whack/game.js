@@ -8,7 +8,7 @@ const OX=(GW-COLS*CELL_W)/2,OY=(GH-ROWS*CELL_H)/2+10
 const holes=[]
 for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)holes.push({x:OX+c*CELL_W+CELL_W/2,y:OY+r*CELL_H+CELL_H/2})
 
-let user='',score=0,running=false,over=false,iv=null,timeLeft=DURATION
+let user='',score=0,running=false,over=false,iv=null,cd=null,timeLeft=DURATION
 let moles=[],spawnTimer=0
 
 function spawnMole(){
@@ -34,7 +34,7 @@ function draw(){
     else ctx.drawImage(logoImg,m.x-sz/2,m.y-sz/2,sz,sz)
   }
   ctx.fillStyle='rgba(0,150,199,.95)';ctx.font='bold 28px Segoe UI';ctx.textAlign='center';ctx.fillText(score,GW/2,34)
-  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('Click / Tap nos logos',8,GH-8)
+  ctx.fillStyle='rgba(100,110,120,.45)';ctx.font='11px Segoe UI';ctx.textAlign='left';ctx.fillText('Click / Tap nos logos',8,GH-14)
   ctx.fillStyle=timeLeft<=10?'#e05050':'rgba(0,150,199,.8)';ctx.font='bold 20px Segoe UI';ctx.textAlign='right';ctx.fillText(timeLeft+'s',GW-10,28)
   if(over){
     ctx.fillStyle='rgba(17,19,22,.88)';ctx.fillRect(0,0,GW,GH)
@@ -58,8 +58,9 @@ function hitAt(cx,cy){
 function startGame(u){
   user=u;score=0;timeLeft=DURATION;running=true;over=false;moles=[];spawnTimer=20
   if(iv)clearInterval(iv)
+  if(cd)clearInterval(cd)
   iv=setInterval(()=>{update();draw()},16)
-  const cd=setInterval(()=>{if(!running){clearInterval(cd);return};if(--timeLeft<=0){running=false;over=true;clearInterval(cd);onGameEnd(user,score).then(s=>s&&renderLeaderboard(s,user))}},1000)
+  cd=setInterval(()=>{if(!running){clearInterval(cd);return};if(--timeLeft<=0){running=false;over=true;clearInterval(cd);onGameEnd(user,score).then(s=>s&&renderLeaderboard(s,user))}},1000)
   refreshLeaderboard(u)
 }
 
