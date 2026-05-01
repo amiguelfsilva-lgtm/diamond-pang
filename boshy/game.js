@@ -364,8 +364,12 @@ function draw(){
 
   // Player bullets
   for(const b of bullets){
-    if(balaImg.complete&&balaImg.naturalWidth>0) ctx.drawImage(balaImg,b.x-7,b.y-4,14,8)
-    else{ctx.fillStyle='#f5c518';ctx.fillRect(b.x-7,b.y-3,14,6)}
+    if(balaImg.complete&&balaImg.naturalWidth>0){
+      ctx.save()
+      if(b.vx<0){ctx.translate(b.x+7,b.y);ctx.scale(-1,1);ctx.drawImage(balaImg,-7,-4,14,8)}
+      else ctx.drawImage(balaImg,b.x-7,b.y-4,14,8)
+      ctx.restore()
+    } else {ctx.fillStyle='#f5c518';ctx.fillRect(b.x-7,b.y-3,14,6)}
   }
 
   // Boss
